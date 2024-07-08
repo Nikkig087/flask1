@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, render_template
 
 
 app = Flask(__name__)  
@@ -13,11 +13,18 @@ app = Flask(__name__)
 #@ shows its a decorator, this wraps functions(objects)
 @app.route("/")
 def index():
-    return "Hello, World"
+    return render_template("index.html")
 
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
 
 if __name__ == "__main__": # then run with following arguments
     app.run(
         host=os.environ.get("IP", "0.0.0.0"),
         port=int(os.environ.get("PORT", "5000")),#casting as int
-        debug=True)
+        debug=True)# only have this in dev never have it true when submitting project
