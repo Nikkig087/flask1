@@ -14,19 +14,42 @@
     </p>
 
     {%for member in company %}
+    <!--
+    {{loop.index}} this shows which iteration of the loop we are on-->
 
         <div class="row featurette">
-            <div class="col-md-7">
-                <h3>{{member.name}}</h3>
-                <p>
-                    {{member.description}}
-                </p>
+            <!--if our loop.index is not divisble by 2 evenly then we want to display that member to the page ie odd num so text on the left and image on the right-->
+            {% if loop.index % 2 != 0 %}
+                <div class="col-md-7">
+                    <h3>{{ loop.index }}.{{ member.name }}</h3>
+                    <p>
+                        {{ member.description }}
+                    </p>
+                
             </div>
             <div class="col-md-5">
-                <img src="{{member.image_source}}" alt="" class="featurette-image image-responsive">
+                <img src="{{ member.image_source }}" alt="" class="featurette-image image-responsive">
             </div>
+                <!--for the even rows then image on the right and text on the left-->
+            {% else %}
+                <div class="col-md-5">
+                    <img src="{{ member.image_source }}" alt="" class="featurette-image image-responsive">
+                </div>
+                <div class="col-md-7">
+                    <h3>{{ loop.index }}.{{ member.name }}</h3>
+                    <p>
+                        {{ member.description }}
+                    </p>
+                    
+                </div>
+                {% endif %}
+            
         </div>
+        {% if loop.index != loop.length %}
         <hr class="featurette-divider">
-    {%endfor%}
+
+        {% endif %}
+
+    {% endfor %}
     
 {% endblock %}
