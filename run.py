@@ -1,12 +1,15 @@
 import os
 import json
-from flask import Flask, render_template
+from flask import Flask, render_template, request, flash
+
+if os.path.exists("env.py"):
+    import env
 
 
 app = Flask(__name__)  
 #app is default, this is an instance of the flask class
 #name is our module
-
+app.secret_key = os.environ.get("SECRET_KEY")
 
 
 #route tells Flask what URL should triger the function that follows
@@ -35,8 +38,15 @@ def about_member(member_name):
     return render_template("member.html", member=member) #this first member is the varible being passed through into our html file, second member is the member object we created here on line 29
 
 
-@app.route("/contact")
+@app.route("/contact",methods=['GET','POST'])
 def contact():
+    if request.method == "POST":
+         flash("Thanks {}, we have received your message!".format(
+            request.form.get("name")))
+            
+             #as this returns a dict we can pull the name info out of it, if form did not have key of Name = this would return None
+             
+       # print(request.form["email"]) # if email did not exsist we would get an exception
     return render_template("contact.html",page_title="Contact")
 
 @app.route("/careers")
